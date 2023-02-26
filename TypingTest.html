@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
+    </link>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(-135deg, rgb(207, 28, 153), rgb(77, 207, 17))
+        }
+
+        /* .main{
+    border: 10px solid rgb(4, 0, 255);
+    border-radius: 10px 10px 0 0;
+    height: auto;
+   
+
+} */
+        h1 {
+            text-shadow: 2px 2px 1px whitesmoke;
+        }
+
+        #textaria {
+            width: min(75vw,750px);
+            padding: 10px;
+            background-color: rgb(15, 228, 228);
+            color: green;
+            font-size: 1.3em;
+            font-weight: 600;
+            border: 10px solid rgb(96, 4, 139);
+            border-radius: 10px;
+            box-sizing: border-box;
+            box-shadow: 3px 3px 5px white, 3px -3px 5px white, -3px 3px 5px white, -3px -3px 5px white;
+        }
+
+        #text {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        #btn {
+            width: 60px;
+            height: 40px;
+            color: white;
+            background-color: rgb(31, 27, 27);
+            border: 2px solid white;
+            box-shadow: 5px 5px 5px grey;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .popup {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border: 2px solid blue;
+            margin: 10px;
+            border-radius: 10px;
+            background: linear-gradient(-135deg, rgb(87, 214, 119), rgb(233, 26, 181));
+
+        }
+
+        .popup span {
+            margin: 10px;
+            font-size: 1.5em;
+            font-weight: 800;
+            text-shadow: 1px 1px 2px white;
+
+        }
+
+        #popup {
+            display: none;
+        }
+       @media (max-width:700px) {
+           body{
+               padding: 5px;
+                background: linear-gradient(-135deg, rgb(231, 109, 195), rgb(131, 241, 79))
+           }
+           h1{
+               font-size: 1.3em;
+            font-weight: 600;
+            text-shadow: .5px .5px 1px whitesmoke;
+           }
+       #text ,#textaria{
+            font-size: .85em;
+            font-weight: 600;
+        }
+        #textaria{
+            width: 85vw;
+            border:3px solid rgb(96, 4, 139);
+        }
+        .display{
+            flex-direction: column;
+        }
+        .popup{
+            width: 30vw;
+        }
+        .popup span{
+            display: grid;
+            place-content: center;
+            font-size: 1em;
+        }
+
+}
+    </style>
+</head>
+
+<body>
+
+    <h1>welcome to the typing speed test</h1><br>
+    <div class="display" id="popup">
+        <div class="popup"><span>total words</span><span id="total"></span></div>
+        <div class="popup"><span>typed words</span><span id="typed"></span></div>
+        <div class="popup"><span>speed</span><span id="speed"></span></div>
+        <div class="popup"><span>accuracy</span><span id="acc"></span></div>
+    </div>
+    <p id="text">words to type appear here</p><br>
+
+    <br>
+    <div class="main">
+        <textarea type="text" id="textaria"  rows="10">your text will be show here...</textarea>
+    </div>
+    <br>
+    <button id="btn">Start</button>
+    <script>
+        let text = document.getElementById('text');
+        const textarea = document.getElementById('textaria');
+        const btn = document.getElementById('btn');
+        const arr = ["Lorem ipsum dolor sit amet consectetur adipisicing elit.", " Optio, rem repellendus! Aperiam ipsum nam dolore.", " Unde consequatur repellendus, fugiat eum vitae inventore? Sunt dolore ipsam", " aspernatur ut id nobis quos odit quaerat fugiat dicta laborum modi", "psum sint sed alias laudantium, amet fugit in nesciunt! Eos explicabo vitae quod aliquam."];
+        let startTime;
+        let endTime;
+
+        function countWords(str) {
+
+            if (str.length == 0) {
+                console.log("vikas");
+                return 0;
+            }
+
+            return str.split(" ").length;
+        }
+        function cntWords(str1, str2) {
+            const words1 = str1.split(" ");
+            const words2 = str2.split(" ");
+            let count = 0;
+            if (words1.length == 0)
+                return 0;
+            words1.forEach((e, ind) => {
+                if (e == words2[ind])
+                    count++;
+            });
+            return count;
+
+        }
+        function typetext() {
+            let ind = Math.round(Math.random() * 4);
+
+            return arr[ind];
+        }
+        //typetext();
+
+        document.getElementById('btn').addEventListener('click', () => {
+
+            console.log(btn.innerText == 'Start');
+            if (btn.innerHTML == 'Start') {
+                textarea.value = "";
+                textarea.disabled = false;
+                text.style.display = 'block';
+                text.innerText = typetext();
+
+
+                btn.innerHTML = 'Done';
+                let date = new Date;
+                startTime = date.getTime();
+                document.getElementById('popup').style.display = 'none';
+            }
+            else if (btn.innerHTML == 'Done') {
+                textarea.disabled = true;
+                btn.innerHTML = 'Start';
+                let date = new Date;
+                endTime = date.getTime();
+                const time = (endTime - startTime) / 1000;
+                console.log(textarea.value);
+                const givenText = countWords(text.innerText);
+                const typeText = countWords(textarea.value);
+                const correctWords = cntWords(textarea.value, text.innerText);
+                const speed = (typeText / time) * 60;
+
+
+                console.log("given" + givenText);
+                console.log("type" + typeText);
+                console.log("currect" + correctWords);
+                if (typeText != 0) {
+                    text.style.display = 'none';
+                    document.getElementById('popup').style.display = 'flex';
+                    document.getElementById('total').innerHTML = `${givenText}`;
+                    document.getElementById('typed').innerHTML = `${typeText}`;
+                    document.getElementById('speed').innerText = ` ${Math.round(speed)} WPM`;
+                    document.getElementById('acc').innerText = `${Math.round((correctWords / typeText)) * 100}`;
+
+                    //   text.innerHTML=`congrats! you have typed ${typeText} words out of ${givenText} words at speed ${speed} word per minut`
+                    // document.getElementById('acc').innerText=` so your accuoresy is ${(correctWords/typeText)*100}`;}
+                }
+                else
+                    text.innerText = `please type some words so that you get any result`;
+            }
+
+
+
+        });
+    </script>
+</body>
+
+</html>
